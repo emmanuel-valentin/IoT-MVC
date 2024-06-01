@@ -28,5 +28,5 @@ model Note {
   body      String
   contact   Contact  @relation(fields: [contactId], references: [id])
   contactId String   @db.ObjectId
-  createdAt DateTime
+  createdAt DateTime @default(now())
 }
