@@ -1,16 +1,32 @@
 import { Contact } from '@prisma/client'
 import type { Request, Response } from 'express'
-import { prisma } from '../prisma'
+import { prisma } from '../models'
 
 export const getContacts = async (req: Request, res: Response) => {
-  const contacts = await prisma.contact.findMany()
-  res.send(contacts)
+  try {
+    const contacts = await prisma.contact.findMany()
+    res.render('contacts', { title: 'Contactos', contacts })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).send(error.message)
+    }
+  }
 }
 
 export const createContact = async (req: Request, res: Response) => {
-  const contact: Contact = req.body
-  await prisma.contact.create({
-    data: contact
-  })
-  res.status(201).send(contact)
+  try {
+    const contact: Contact = req.body
+    console.log(contact)
+    await prisma.contact.create({
+      data: contact,
+    })
+    const contacts = await prisma.contact.findMany()
+    res.render('contacts', { title: 'Contactos', contacts })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).send({
+        error: error.name,
+      })
+    }
+  }
 }
