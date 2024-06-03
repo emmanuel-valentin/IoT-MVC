@@ -9,24 +9,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Contact {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(uuid())
   email       String @unique
   firstName   String
   lastName    String
   phoneNumber String
-  notes       Note[]
-}
-
-model Note {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  body      String
-  contact   Contact  @relation(fields: [contactId], references: [id])
-  contactId String   @db.ObjectId
-  createdAt DateTime @default(now())
 }

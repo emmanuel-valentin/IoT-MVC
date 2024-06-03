@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prisma": "npx prisma generate --schema=./src/models/schema.prisma",
+    "db": "npx prisma db push --schema=./src/models/schema.prisma",
     "start": "node dist/app.js",
     "build": "npx tsc",
     "dev": "nodemon src/app.ts"

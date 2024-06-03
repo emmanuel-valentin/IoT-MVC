@@ -24,9 +24,39 @@ export const createContact = async (req: Request, res: Response) => {
     res.render('contacts', { title: 'Contactos', contacts })
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).send({
-        error: error.name,
-      })
+      res.status(400).send(error.message)
+    }
+  }
+}
+
+export const getContactById = async (req: Request, res: Response) => {
+  try {
+    const contactId = req.params.id
+    const contact = await prisma.contact.findUnique({
+      where: { id: contactId },
+    })
+    res.render('contact-detail', { title: 'Detalles', contact: contact })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).send(error.message)
+    }
+  }
+}
+
+export const updateContact = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const contactPayload: Contact = req.body
+
+    await prisma.contact.update({
+      data: contactPayload,
+      where: { id },
+    })
+
+    res.redirect('/contacts')
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).send(error.message)
     }
   }
 }

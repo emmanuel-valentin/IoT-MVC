@@ -6,20 +6,17 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <% contacts.forEach(contact => {%>
-    <li>
-      <a href="/contacts/<%=contact.id %>"
-        ><%= contact.firstName %> <%= contact.lastName %></a
-      >
-    </li>
-    <%})%>
+    <p>Agenda de contactos</p>
     <hr />
-    <form method="post" action="/contacts">
+    <h2>
+      Detalles del contacto: <%= contact.firstName + ' ' + contact.lastName %>
+    </h2>
+    <form method="post" action="/contacts/<%= contact.id %>">
       <input
         type="text"
         name="firstName"
         placeholder="Ingresa el nombre(s)"
+        value="<%= contact.firstName %>"
         required
       />
       <br />
@@ -27,19 +24,27 @@
         type="text"
         name="lastName"
         placeholder="Ingresa el apellido(s)"
+        value="<%= contact.lastName %>"
         required
       />
       <br />
-      <input type="email" name="email" placeholder="Ingrea el email" required />
+      <input
+        type="email"
+        name="email"
+        placeholder="Ingrea el email"
+        value="<%= contact.email %>"
+        required
+      />
       <br />
       <input
         type="tel"
         name="phoneNumber"
         placeholder="Ingresa el número de teléfono"
+        value="<%= contact.phoneNumber %>"
         required
       />
       <br />
-      <button type="submit">Añadir contacto</button>
+      <button type="submit">Actualizar contacto</button>
     </form>
   </body>
 </html>
